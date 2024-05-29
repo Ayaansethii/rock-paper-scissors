@@ -1,4 +1,4 @@
-console.log("Welcome to Rock paper sissors!");
+//This function generates a computer choice using math random and assiging the number to a set action
 function getComputerChoice() {
     let computerAction = Math.floor(Math.random() * 3);
     switch (computerAction) {
@@ -11,21 +11,7 @@ function getComputerChoice() {
     }
 }
 
-
-console.log("Welcome to Rock Paper Scissors!");
-
-function getComputerChoice() {
-    let computerAction = Math.floor(Math.random() * 3);
-    switch (computerAction) {
-        case 0:
-            return "rock";
-        case 1:
-            return "paper";
-        case 2:
-            return "scissors";
-    }
-}
-
+//Takes user input and removes case sensitivity an returns the user choice while handling invalaid inputs
 function getHumanChoice() {
     let userInput;
     do {
@@ -38,10 +24,10 @@ function getHumanChoice() {
 }
 
 
-
+//Uses control logic to compare user and computer choices and increments score based off the game rules.
 function playRound(humanChoice, computerChoice, humanScore, computerScore) {
     if (humanChoice === computerChoice) {
-        console.log("TIE! You and Computer both selected " + computerChoice + ".");
+        console.log("TIE! You and Computer both selected " + computerChoice + "."); 
     } else if (humanChoice === "rock") {
         if (computerChoice === "paper") {
             console.log("Computer Wins! " + computerChoice + " beats " + humanChoice + ".");
@@ -70,8 +56,9 @@ function playRound(humanChoice, computerChoice, humanScore, computerScore) {
     return { humanScore, computerScore };
 }
 
-
+//game runs 5 rounds and the scores are returned printing a win/loss/tie meesage.
 function playGame() {
+    console.log("Welcome to Rock Paper Sissors!");
     let humanScore = 0;
     let computerScore = 0;
     for (let i = 0; i < 5; i++) {
@@ -87,9 +74,9 @@ function playGame() {
     console.log("Computer: " + computerScore);
     
     if (humanScore > computerScore) {
-        console.log("Congratulations! You won the game.");
+        console.log("Congratulations! You won.");
     } else if (computerScore > humanScore) {
-        console.log("Sorry! The computer won the game.");
+        console.log("Sorry! The computer won.");
     } else {
         console.log("It's a tie game!");
     }
