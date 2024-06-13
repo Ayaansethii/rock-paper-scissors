@@ -1,0 +1,39 @@
+#scoreboard {
+    display: flex;
+    justify-content: space-around;
+}
+
+.selection-buttons {
+    width: 256px;
+    height: 256px;
+    background-color: #96333e;
+}
+
+#title-container {
+    background-color: white;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+#title {
+    font-size: 64px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+/* Animation keyframes */
+@keyframes moveAnimation {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+}
+
+/* Animation class */
+.animate-move {
+    animation: moveAnimation 0.5s ease-in-out;
+}

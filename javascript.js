@@ -1,4 +1,13 @@
-//This function generates a computer choice using math random and assiging the number to a set action
+let humanScore = 0;
+let computerScore = 0;
+const rockButton = document.getElementById("rockBtn");
+const paperButton = document.getElementById("paperBtn");
+const scissorButton = document.getElementById("scissorsBtn");
+const roundResult = document.getElementById("RoundResultsMessage");
+const userScoreBoard = document.getElementById("userScoreboard");
+const computerScoreBoard = document.getElementById("computerScoreboard");
+const newGameButton = document.getElementById("newGameBtn");
+
 function getComputerChoice() {
     let computerAction = Math.floor(Math.random() * 3);
     switch (computerAction) {
@@ -11,78 +20,95 @@ function getComputerChoice() {
     }
 }
 
-//Takes user input and removes case sensitivity an returns the user choice while handling invalaid inputs
-function getHumanChoice() {
-    let userInput;
-    do {
-        userInput = prompt("Enter your selection (rock/paper/scissors):").toLowerCase();
-        if (userInput !== "rock" && userInput !== "scissors" && userInput !== "paper") {
-            alert("Invalid input! Please enter rock, paper, or scissors.");
-        }
-    } while (userInput !== "rock" && userInput !== "scissors" && userInput !== "paper");
-    return userInput;
-}
+rockButton.addEventListener("click", function () {
+    playGame("rock");
+    animateButton("rockBtn");
+});
 
+paperButton.addEventListener("click", function () {
+    playGame("paper");
+    animateButton("paperBtn");
+});
 
-//Uses control logic to compare user and computer choices and increments score based off the game rules.
-function playRound(humanChoice, computerChoice, humanScore, computerScore) {
+scissorButton.addEventListener("click", function () {
+    playGame("scissors");
+    animateButton("scissorsBtn");
+});
+
+function playRound(humanChoice, computerChoice) {
+    let resultMessage;
     if (humanChoice === computerChoice) {
-        console.log("TIE! You and Computer both selected " + computerChoice + "."); 
+        resultMessage = "TIE! You and Computer both selected " + computerChoice + ".";
     } else if (humanChoice === "rock") {
         if (computerChoice === "paper") {
-            console.log("Computer Wins! " + computerChoice + " beats " + humanChoice + ".");
+            resultMessage = "Computer Wins! " + computerChoice + " beats " + humanChoice + ".";
             computerScore++;
         } else {
-            console.log("You Win! " + humanChoice + " beats " + computerChoice + ".");
+            resultMessage = "You Win! " + humanChoice + " beats " + computerChoice + ".";
             humanScore++;
         }
     } else if (humanChoice === "paper") {
         if (computerChoice === "scissors") {
-            console.log("Computer Wins! " + computerChoice + " beats " + humanChoice + ".");
+            resultMessage = "Computer Wins! " + computerChoice + " beats " + humanChoice + ".";
             computerScore++;
         } else {
-            console.log("You Win! " + humanChoice + " beats " + computerChoice + ".");
+            resultMessage = "You Win! " + humanChoice + " beats " + computerChoice + ".";
             humanScore++;
         }
     } else if (humanChoice === "scissors") {
         if (computerChoice === "rock") {
-            console.log("Computer Wins! " + computerChoice + " beats " + humanChoice + ".");
+            resultMessage = "Computer Wins! " + computerChoice + " beats " + humanChoice + ".";
             computerScore++;
         } else {
-            console.log("You Win! " + humanChoice + " beats " + computerChoice + ".");
+            resultMessage = "You Win! " + humanChoice + " beats " + computerChoice + ".";
             humanScore++;
         }
     }
+    roundResult.textContent = resultMessage;
     return { humanScore, computerScore };
 }
 
-//game runs 5 rounds and the scores are returned printing a win/loss/tie meesage.
-function playGame() {
-    console.log("Welcome to Rock Paper Sissors!");
-    let humanScore = 0;
-    let computerScore = 0;
-    for (let i = 0; i < 5; i++) {
-        let humanChoice = getHumanChoice();
-        let computerChoice = getComputerChoice();
-    
-        let scores = playRound(humanChoice, computerChoice, humanScore, computerScore);
-        humanScore = scores.humanScore;
-        computerScore = scores.computerScore;
-    }
-    console.log("Final Scores:");
-    console.log("You: " + humanScore);
-    console.log("Computer: " + computerScore);
-    
-    if (humanScore > computerScore) {
-        console.log("Congratulations! You won.");
-    } else if (computerScore > humanScore) {
-        console.log("Sorry! The computer won.");
-    } else {
-        console.log("It's a tie game!");
+function updateScoreBoard(userScore, computerScore) {
+    userScoreBoard.textContent = userScore;
+    computerScoreBoard.textContent = computerScore;
+}
+
+function endGame() {
+    rockButton.disabled = true;
+    paperButton.disabled = true;
+    scissorButton.disabled = true;
+    newGameButton.style.display = "inline";
+}
+
+function newGame() {
+    rockButton.disabled = false;
+    paperButton.disabled = false;
+    scissorButton.disabled = false;
+    newGameButton.style.display = "none";
+    roundResult.textContent = '';
+    humanScore = 0;
+    computerScore = 0;
+    updateScoreBoard(humanScore, computerScore);
+}
+
+newGameButton.addEventListener("click", newGame);
+
+function playGame(humanInput) {
+    let userChoice = humanInput;
+    let computerChoice = getComputerChoice();
+    let scores = playRound(userChoice, computerChoice);
+    humanScore = scores.humanScore;
+    computerScore = scores.computerScore;
+    updateScoreBoard(humanScore, computerScore);
+    if (humanScore >= 5 || computerScore >= 5) {
+        endGame();
     }
 }
 
-playGame();
-
-
-
+function animateButton(buttonId) {
+    const button = document.getElementById(buttonId).querySelector('img');
+    button.classList.add('animate-move');
+    button.addEventListener('animationend', () => {
+        button.classList.remove('animate-move');
+    }, { once: true });
+}
